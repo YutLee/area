@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html;charset=utf-8" />
+		<title>combobox</title>
+		<script src="jquery-1.8.3.min.js"></script>
+		<script>
+			(function() {
+				var app = window.app = window.app || {};
+				app.util = app.util || {};
+			})();
+		</script>
+		<script src="area.js"></script>
+		<script src="jquery.gang.js"></script>
+		<style>
+			html, body{font-size:12px;}
+			ul{margin:0;padding:0;list-style:none;}
+			
+			.gang{z-index:14;position:relative;padding:0 24px 0 10px;height: 22px;line-height: 22px;overflow: hidden;max-width: 456px;display: inline-block;float: left;height: 22px;border: 1px solid #bfbfbf;line-height: 22px;cursor: pointer;background: #fff;_float: left;}
+			.popup.area{width:300px;display:none;overflow: hidden;position: absolute;z-index: 13;top: 23px;left: 0;padding: 10px;background-color: #fff;border: 1px #bfbfbf solid;box-shadow: 0 0 5px #aaa;}
+			.gang em, .popup.area em{overflow: hidden;position:absolute;top: 9px;right:10px;display: inline-block;width: 0;height: 0;font-size: 0;line-height: 0;border: 4px dashed transparent;border-top: 4px solid #317ee7;}
+			.gang.chose{border-bottom:none;box-shadow: 0 -1px 1px #aaa;}
+			.gang.chose em, .popup.area .item.chose em{top: 5px;border: 4px dashed transparent;border-bottom: 4px solid #666;}
+			.popup.area .tabs, .popup.area .list{zoom: 1;}
+			.popup.area .tabs:after, .popup.area .list:after{content:'';height:0;font-size:0;clear:both;display:block;overflow:hidden;}
+			.popup.area .item{cursor:pointer;float:left;position:relative;padding:0 24px 0 10px;height: 22px;line-height: 22px;display:inline-block;}
+			.popup.area .list a{float:left;display:inline-block;color:#000;padding: 3px 5px; text-decoration: none;}
+			.popup.area .list a.chose{color:#fff;background-color:#333;}
+			.popup.area .list{display:none;}
+			.popup.area .list.chose{display:block;}
+		</style>
+	</head>
+	<body>
+
+		<div id="demo"  style="position:relative;height:500px;">
+		<form>
+			<div id="gang" class="gang"></div>
+		</form>
+		</div>
+		<script>
+			//document.cookie = "cc=11-1101-110103";
+			$(document).ready(function() {
+				$('#gang').gang({
+					dataSource: app.util.area, 
+					className: 'area', 
+					series: ['s', 'ss', 'sss'],
+					cookieName: 'cc',
+					lastSelect: function() {
+						//TODO
+						console.log(this.values);
+						this.setCookie('cc', this.values.join('-'), 1);
+						window.location.reload();
+					}
+				});
+				console.log($('#gang').data('gGang'))
+			});
+		</script>
+	</body>
+</html>
