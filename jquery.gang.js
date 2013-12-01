@@ -51,11 +51,10 @@
 				that.idx = idx;
 				that.tabs.children().eq(idx).children('span').text(text);
 				that.inputList[idx].attr('value', value);
-				
 				that.newTexts.pop();
 				that.newValues.pop();
+				that.removeNextAll(idx);
 				if(isList) {
-					that.removeNextAll(idx);
 					that.newTexts.push(text, '--请选择--');
 					that.newValues.push(value, '--请选择--');
 					that.setNext(data, value);
@@ -88,6 +87,8 @@
 							item = that.contents.children().eq(i).find('a[val=' + value + ']');//.data('list');
 						item.click();
 					}
+				}else {
+					that.tabs.children().last().click();
 				}
 			});
 			
@@ -95,8 +96,9 @@
 		options: {
 			name: 'gGang',
 			isSetCookie: true,
-			cookieName: '',
-			series: []
+			//cookieName: '',
+			defOption: [11, 1101, 110103],
+			//series: []
 		},
 		toggle: function() {
 			var that = this;
@@ -122,16 +124,17 @@
 			var strCookie=document.cookie; 
 			//将多cookie切割为多个名/值对 
 			var arrCookie=strCookie.split("; "); 
+			var value;
 			//遍历cookie数组，处理每个cookie对 
 			for(var i=0;i<arrCookie.length;i++){ 
 				var arr=arrCookie[i].split("="); 
 				//找到名称为userId的cookie，并返回它的值 
 				if(name == arr[0]){ 
-					name = arr[1]; 
+					value = arr[1]; 
 					break; 
 				}
 			}
-			return name || false;
+			return value || false;
 		},
 		setCookie: function(name, value, time) {
 			//获取当前时间 
@@ -154,8 +157,10 @@
 				el = that.element,
 				options = that.options,
 				cookieName = options.cookieName,
-				value = that.getCookie(cookieName).split('-');//[11, 1101, 110103];
-				
+				value = that.getCookie(cookieName);//.split('-');//[11, 1101, 110103];
+
+			value = value ? value.split('-') : options.defOption;
+			
 			that.span = $('<span>').appendTo(el);
 			el.append('<em></em>');
 			that.popup = $('<div class="popup">').addClass(options.className || '').appendTo(document.body);
@@ -184,7 +189,6 @@
 		removeNextAll: function(idx) {
 			var that = this,
 				len = that.size;
-				
 			for(var i = len - 1; i > idx; i--) {
 				that.tabsList.pop();
 				that.contentsList.pop();
